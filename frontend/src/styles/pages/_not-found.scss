@@ -1,0 +1,13 @@
+@use '../abstracts' as *;
+
+.not-found {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: $space-6;
+  min-height: 100dvh;
+
+  &__code {
+    @include display($fs-not-found, $fw-black, $ls-display, $lh-solid);
+  }
+}

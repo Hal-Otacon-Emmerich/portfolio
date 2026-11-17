@@ -1,0 +1,460 @@
+@use '../abstracts' as *;
+
+.pp {
+  display: grid;
+  grid-template-columns: $rail-width $panel-width minmax(0, 1fr);
+  min-height: 100dvh;
+
+  @include down($bp-md) {
+    grid-template-columns: 1fr;
+  }
+
+  /* ---------- Навигация слева ---------- */
+
+  &__rail {
+    @include sticky-screen;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-block: $space-10 $space-6;
+    @include fill-ink;
+
+    &-nav {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    &-item {
+      position: relative;
+      display: block;
+      padding-block: $space-5;
+      @include mono($fs-2xl, $fw-bold);
+      line-height: 1.25;
+      text-align: center;
+      text-decoration: none;
+      @include transition(color);
+
+      &::after {
+        content: '';
+        position: absolute;
+        left: 50%;
+        bottom: 0;
+        width: $space-8;
+        height: $border-thin;
+        background: $color-line-inverse;
+        transform: translateX(-50%);
+      }
+
+      &:is(a):hover,
+      &.is-active {
+        color: $color-orange;
+      }
+
+      &.is-disabled {
+        opacity: 0.3;
+        cursor: not-allowed;
+      }
+    }
+
+    &-home {
+      padding-top: 0;
+    }
+
+    &-back {
+      display: grid;
+      place-items: center;
+      @include square($rail-button);
+      margin-top: auto;
+      border: $border-thin solid $color-paper;
+      border-radius: 50%;
+      background: transparent;
+      color: $color-paper;
+      font-size: $fs-5xl;
+      @include transition(background-color, color, border-color);
+
+      &:hover {
+        @include fill-accent;
+      }
+    }
+
+    // Телефон: навигация становится верхней полосой
+    @include down($bp-md) {
+      z-index: $z-rail;
+      flex-direction: row;
+      justify-content: space-between;
+      height: auto;
+      padding: $space-2 $space-4;
+
+      &-nav {
+        flex-direction: row;
+        gap: $space-1;
+      }
+
+      &-item {
+        padding: $space-2 $space-3;
+        font-size: $fs-base;
+
+        &::after {
+          display: none;
+        }
+      }
+
+      &-home {
+        padding-top: $space-2;
+      }
+
+      &-back {
+        @include square($rail-button-mobile);
+        margin-top: 0;
+        font-size: $fs-3xl;
+      }
+    }
+  }
+
+  /* ---------- Оранжевая панель ---------- */
+
+  &__panel {
+    @include sticky-screen;
+    display: flex;
+    flex-direction: column;
+    padding: $space-12 $space-10 $space-12;
+    background: $color-orange;
+    color: $color-ink;
+    overflow: hidden;
+    animation: fade-in $duration-enter $ease;
+
+    &-head {
+      @include key-value(rem(80));
+    }
+
+    &-foot {
+      margin-top: auto;
+    }
+
+    @include down($bp-md) {
+      position: static;
+      height: auto;
+      padding: $space-8 $space-4 $space-9;
+
+      &-foot {
+        margin-top: $space-8;
+      }
+    }
+  }
+
+  &__tag {
+    padding-top: $space-1-5;
+    @include label($fs-lg, $fw-bold);
+    letter-spacing: normal;
+    line-height: 1.25;
+  }
+
+  &__manual,
+  &__alias {
+    display: grid;
+    font-family: $font-mono;
+    font-weight: $fw-extrabold;
+    letter-spacing: $ls-mono-tight;
+    line-height: $lh-snug;
+  }
+
+  &__manual {
+    font-size: $fs-manual-title;
+  }
+
+  &__alias {
+    font-size: $fs-manual-alias;
+  }
+
+  &__bar {
+    display: block;
+    width: $bar-width;
+    height: $bar-height;
+    margin-top: $space-10;
+    background: $color-ink;
+
+    @include down($bp-md) {
+      margin-top: $space-7;
+    }
+  }
+
+  &__bignum {
+    margin-top: $space-10;
+    margin-left: -0.04em;
+    @include display($fs-manual-number, $fw-black, $ls-numeral, $lh-solid);
+  }
+
+  /* ---------- Чертёж ---------- */
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    min-height: 100dvh;
+    padding: $space-12 clamp(#{$space-6}, 4vw, #{$space-14}) $space-12;
+    animation: fade-in $duration-enter $ease;
+
+    @include down($bp-md) {
+      min-height: 0;
+      padding: $space-8 $space-4 $space-9;
+    }
+  }
+
+  &__head {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: $space-4;
+    padding-bottom: $space-3-5;
+    border-bottom: $border-thick solid $color-ink;
+    @include label($fs-xl, $fw-bold);
+    letter-spacing: normal;
+
+    > :last-child {
+      text-align: right;
+    }
+
+    @include down($bp-md) {
+      grid-template-columns: 1fr auto;
+      font-size: $fs-base;
+
+      > :last-child {
+        display: none;
+      }
+
+      > :nth-child(2) {
+        text-align: right;
+      }
+    }
+  }
+
+  &__muted {
+    color: $color-muted;
+    font-weight: $fw-medium;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) $spec-width;
+    align-items: start;
+    gap: $space-11;
+    margin-block: $space-10 $space-16;
+
+    @include down($bp-xl) {
+      grid-template-columns: 1fr;
+    }
+
+    @include down($bp-md) {
+      gap: $space-10;
+    }
+  }
+
+  &__foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: $space-4;
+    margin-top: auto;
+    padding-top: $space-6;
+    border-top: $border-thick solid $color-ink;
+    @include label($fs-2xl, $fw-bold);
+    letter-spacing: normal;
+
+    @include down($bp-md) {
+      font-size: $fs-base;
+    }
+  }
+
+  &__back {
+    padding-top: $space-4-5;
+    text-decoration: none;
+    @include transition(color);
+
+    &:hover {
+      color: $color-orange;
+    }
+  }
+
+  &__state {
+    grid-column: 2 / -1;
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: $space-5;
+    @include label($fs-xl);
+    letter-spacing: normal;
+
+    @include down($bp-md) {
+      grid-column: 1;
+      min-height: 60dvh;
+    }
+  }
+}
+
+/* ---------- Схема ---------- */
+
+.diagram {
+  display: flex;
+  flex-direction: column;
+  font-family: $font-mono;
+
+  &__node {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: $space-3;
+    padding: $space-5 $space-6;
+    border: $border-thick solid $color-ink;
+    background: $color-paper-3;
+    font-size: $fs-diagram-node;
+    font-weight: $fw-bold;
+
+    &:first-child {
+      background: $color-paper;
+    }
+
+    &.is-emphasis {
+      padding-block: $space-6;
+      @include fill-ink;
+
+      .diagram__code {
+        color: $color-orange;
+      }
+    }
+
+    @include down($bp-md) {
+      padding: $space-4;
+    }
+  }
+
+  &__code {
+    color: $color-muted;
+    font-size: $fs-lg;
+    font-weight: $fw-medium;
+  }
+
+  &__wire {
+    align-self: center;
+    width: $border-thick;
+    height: $wire-height;
+    background: $color-ink;
+  }
+
+  &__modules {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: $space-3-5;
+
+    @include down($bp-xs) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__module {
+    display: grid;
+    gap: $space-2;
+    padding: $space-4 $space-4-5 $space-4-5;
+    border: $border-thick dashed $color-ink;
+    @include transition(background-color, border-color);
+
+    &:hover {
+      background: $color-orange;
+      border-style: solid;
+
+      .diagram__module-cat {
+        color: $color-ink;
+      }
+    }
+
+    &-cat {
+      font-size: $fs-base;
+      text-transform: uppercase;
+      color: $color-muted;
+    }
+
+    &-name {
+      font-size: $fs-diagram-module;
+      font-weight: $fw-bold;
+    }
+  }
+}
+
+/* ---------- Spec sheet ---------- */
+
+.spec {
+  font-family: $font-mono;
+  box-shadow: $shadow-offset $shadow-offset 0 $color-shadow;
+
+  @include down($bp-xl) {
+    max-width: rem(520);
+  }
+
+  @include down($bp-md) {
+    margin-right: $shadow-offset;
+  }
+
+  &__top {
+    padding: $space-7 $space-7 $space-6;
+    background: $color-orange;
+  }
+
+  &__code {
+    @include label($fs-lg, $fw-bold);
+    letter-spacing: normal;
+  }
+
+  &__title {
+    display: grid;
+    margin-top: $space-5;
+    padding-bottom: $space-4-5;
+    border-bottom: $border-thick solid $color-ink;
+    font-size: $fs-spec-title;
+    font-weight: $fw-extrabold;
+    line-height: $lh-snug;
+  }
+
+  &__rows {
+    display: grid;
+    gap: $space-3;
+    margin-top: $space-5;
+    font-size: $fs-2xl;
+
+    > div {
+      @include key-value(rem(130));
+
+      @include down($bp-md) {
+        grid-template-columns: rem(110) 1fr;
+      }
+    }
+
+    dt {
+      font-weight: $fw-bold;
+      text-transform: uppercase;
+    }
+  }
+
+  &__bottom {
+    padding: $space-6 $space-7 $space-8;
+    background: $color-paper-3;
+    font-size: $fs-xl;
+    line-height: $lh-body;
+
+    p {
+      padding-bottom: $space-5;
+      border-bottom: $border-thick solid $color-ink;
+    }
+  }
+
+  &__link {
+    display: inline-block;
+    margin-top: $space-5;
+    font-weight: $fw-bold;
+    text-transform: uppercase;
+    text-decoration: none;
+    @include transition(color);
+
+    &:hover {
+      color: $color-orange;
+    }
+  }
+}

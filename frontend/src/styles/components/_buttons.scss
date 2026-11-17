@@ -1,0 +1,45 @@
+@use '../abstracts' as *;
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $space-1-5;
+  padding: $space-2-5 $space-3-5;
+  border: $border-thin solid currentColor;
+  background: transparent;
+  color: inherit;
+  @include label($fs-sm, $fw-bold);
+  text-decoration: none;
+  white-space: nowrap;
+  @include transition(background-color, color, border-color);
+
+  &:hover:not(:disabled) {
+    @include fill-accent;
+  }
+
+  &--ink {
+    @include fill-ink;
+  }
+
+  &--sm {
+    padding: $space-2;
+    font-size: $fs-xs;
+  }
+
+  &--lg {
+    padding: $space-4 $space-6;
+    font-size: $fs-lg;
+  }
+
+  &:disabled {
+    @include fill($color-disabled-bg, $color-disabled-ink);
+    cursor: not-allowed;
+  }
+}
+
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-1-5;
+}

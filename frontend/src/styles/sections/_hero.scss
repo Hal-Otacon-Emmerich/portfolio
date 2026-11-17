@@ -1,0 +1,202 @@
+@use 'sass:string';
+@use '../abstracts' as *;
+
+.hero {
+  &__frame {
+    position: relative;
+    display: grid;
+    min-height: clamp(#{rem(300)}, 46vw, #{rem(560)});
+    padding: clamp(#{$space-9}, 6vw, #{rem(72)}) clamp(#{$space-5}, 4vw, #{$space-11})
+      clamp(#{$space-7}, 4vw, #{$space-11});
+    border-top: $border-thin solid $color-line;
+    overflow: hidden;
+
+    @include down($bp-sm) {
+      min-height: rem(340);
+      padding-inline: $space-3-5;
+    }
+  }
+
+  &__unit,
+  &__fig {
+    position: relative;
+    z-index: 2;
+    color: $color-muted;
+  }
+
+  &__fig {
+    justify-self: end;
+    align-self: end;
+    font-size: $fs-2xs;
+  }
+
+  &__art {
+    position: absolute;
+    inset: 0 0 0 auto;
+    z-index: 0;
+    width: min(92%, #{rem(980)});
+    height: 100%;
+    pointer-events: none;
+
+    @include down($bp-sm) {
+      inset: auto -20% 10% auto;
+      width: 130%;
+      height: 75%;
+    }
+  }
+
+  &__title {
+    position: relative;
+    z-index: 1;
+    align-self: center;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    margin-top: $space-3;
+    @include display($fs-hero, $fw-black, $ls-display, 0.82);
+
+    @include down($bp-sm) {
+      column-gap: 0.12em;
+      font-size: 13vw;
+    }
+
+    &-right {
+      text-align: right;
+    }
+  }
+
+  .plus-row {
+    margin-top: $space-3-5;
+  }
+
+  &__bottom {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: start;
+    gap: $space-8;
+    padding-block: $space-3 $space-16;
+    border-bottom: $border-thin solid $color-ink;
+
+    @include down($bp-sm) {
+      grid-template-columns: 1fr;
+      padding-bottom: $space-11;
+    }
+  }
+
+  &__about {
+    max-width: $text-max-width;
+    @include mono($fs-md);
+    line-height: $lh-relaxed;
+  }
+
+  &__cta {
+    display: grid;
+    justify-items: end;
+    gap: $space-3-5;
+
+    &-title {
+      max-width: 24ch;
+      text-align: right;
+      text-transform: uppercase;
+      @include display($fs-xl, $fw-extrabold, $ls-snug, $lh-snug);
+    }
+
+    @include down($bp-sm) {
+      justify-items: start;
+
+      &-title {
+        text-align: left;
+      }
+    }
+  }
+}
+
+// Оранжевые уголки рамки: .corner--tl, --tr, --bl, --br
+.corner {
+  position: absolute;
+  @include square($corner-size);
+  border: 0 solid $color-orange;
+
+  @each $v in top, bottom {
+    @each $h in left, right {
+      &--#{string.slice($v, 1, 1)}#{string.slice($h, 1, 1)} {
+        #{$v}: 0;
+        #{$h}: 0;
+        border-#{$v}-width: $border-accent;
+        border-#{$h}-width: $border-accent;
+      }
+    }
+  }
+}
+
+/* ---------- Чертёж платы (SVG) ----------
+   Толщины линий и шрифт заданы в единицах SVG: чертёж масштабируется целиком вместе с viewBox. */
+
+$board-stroke: 1;
+$board-stroke-bold: 1.4;
+$board-stroke-light: 0.8;
+
+.board {
+  color: $color-ink;
+
+  * {
+    vector-effect: non-scaling-stroke;
+  }
+
+  &__plane,
+  &__part {
+    rect,
+    circle {
+      stroke: $color-ink;
+      stroke-width: $board-stroke;
+      fill: none;
+    }
+  }
+
+  &__plane {
+    .board__pcb {
+      fill: $color-pcb-fill;
+      stroke-width: $board-stroke-bold;
+    }
+
+    .board__thin {
+      stroke-width: 0.7;
+    }
+
+    .board__dashed {
+      stroke-dasharray: 4 4;
+      stroke-width: $board-stroke-light;
+    }
+
+    .board__soc {
+      fill: $color-orange;
+      stroke-width: $board-stroke-bold;
+    }
+
+    .board__soc-core {
+      stroke-width: $board-stroke-bold;
+    }
+  }
+
+  &__part rect {
+    fill: $color-part-fill;
+  }
+
+  &__leader line {
+    stroke: $color-ink;
+    stroke-width: $board-stroke-light;
+    stroke-dasharray: 3 4;
+  }
+
+  &__callout {
+    circle {
+      fill: $color-ink;
+    }
+
+    text {
+      fill: $color-paper;
+      font-family: $font-mono;
+      font-size: 9px;
+      font-weight: $fw-bold;
+    }
+  }
+}

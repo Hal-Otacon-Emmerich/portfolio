@@ -1,0 +1,369 @@
+@use '../abstracts' as *;
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: $z-modal;
+  display: grid;
+  place-items: center;
+  padding: $space-7;
+  background: $color-overlay;
+  animation: fade-in $duration-base $ease;
+
+  @include down($bp-md) {
+    padding: 0;
+  }
+}
+
+.modal {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: min(#{$modal-max-width}, 100%);
+  max-height: calc(100dvh - #{2 * $space-7});
+  background: $color-paper;
+  box-shadow: $shadow-offset-lg $shadow-offset-lg 0 $color-orange;
+  animation: rise-in $duration-enter $ease;
+
+  &__bar {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr auto;
+    align-items: stretch;
+    background: $color-orange;
+    @include label($fs-lg, $fw-bold);
+    letter-spacing: normal;
+
+    > span {
+      padding: $space-4-5 $space-6;
+    }
+  }
+
+  &__counter {
+    grid-column: 2;
+  }
+
+  &__close {
+    grid-column: 4;
+    padding: 0 $space-6;
+    border: 0;
+    @include fill-ink;
+    @include label($fs-lg, $fw-bold);
+    letter-spacing: normal;
+    @include transition(background-color, color);
+
+    &:hover {
+      @include fill-paper;
+    }
+  }
+
+  &__body {
+    display: grid;
+    grid-template-columns: $modal-side-width minmax(0, 1fr);
+    min-height: 0;
+    overflow: auto;
+    overscroll-behavior: contain;
+    animation: fade-in $duration-slow $ease;
+  }
+
+  @include down($bp-md) {
+    height: 100dvh;
+    max-height: 100dvh;
+    box-shadow: none;
+
+    &__bar {
+      grid-template-columns: 1fr auto;
+      font-size: $fs-md;
+
+      > span {
+        padding: $space-3-5 $space-4;
+      }
+    }
+
+    &__counter {
+      display: none;
+    }
+
+    &__close {
+      grid-column: 2;
+      padding: 0 $space-4;
+      font-size: $fs-md;
+    }
+
+    &__body {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+/* ---------- Досье: левая колонка ---------- */
+
+.case {
+  &__side {
+    display: flex;
+    flex-direction: column;
+    padding: $space-7 $space-7 $space-6;
+    @include fill-ink;
+    font-family: $font-mono;
+
+    @include down($bp-md) {
+      padding: $space-5 $space-4;
+    }
+
+    &-head {
+      display: flex;
+      justify-content: space-between;
+      @include label($fs-base, $fw-bold);
+      letter-spacing: normal;
+    }
+
+    &-label {
+      margin-top: $space-9;
+      @include label($fs-base, $fw-bold);
+      letter-spacing: normal;
+    }
+  }
+
+  &__num {
+    margin-top: $space-5;
+    @include display($fs-case-number, $fw-black, $ls-numeral, $lh-solid);
+  }
+
+  &__rule {
+    display: block;
+    width: $rule-width;
+    height: $rule-height;
+    margin-top: $space-4-5;
+    background: $color-orange;
+  }
+
+  &__facts {
+    display: grid;
+    gap: $space-3;
+    margin-top: $space-7;
+    font-size: $fs-base;
+
+    > div {
+      @include key-value(rem(96));
+    }
+
+    dt {
+      text-transform: uppercase;
+      opacity: 0.75;
+    }
+  }
+
+  &__verify {
+    margin-top: auto;
+    padding-top: $space-10;
+    font-size: $fs-md;
+    opacity: 0.85;
+
+    .barcode {
+      height: rem(52);
+      margin-bottom: $space-2-5;
+    }
+
+    @include down($bp-md) {
+      padding-top: $space-6;
+    }
+  }
+
+  /* ---------- Досье: правая колонка ---------- */
+
+  &__main {
+    padding: $space-9 $space-11 $space-8;
+
+    @include down($bp-md) {
+      padding: $space-6 $space-4 $space-7;
+    }
+  }
+
+  &__eyebrow {
+    @include label($fs-base, $fw-regular);
+    letter-spacing: normal;
+    color: $color-muted;
+
+    &--ink {
+      margin-top: $space-9;
+      font-weight: $fw-bold;
+      color: $color-ink;
+    }
+  }
+
+  &__title {
+    margin-top: $space-3;
+    @include display($fs-case-title, $fw-black, $ls-display, 0.95);
+  }
+
+  &__pitch {
+    margin-top: $space-6;
+    padding-bottom: $space-7;
+    border-bottom: $border-thin solid $color-ink;
+    @include mono($fs-xl);
+    line-height: $lh-body;
+  }
+
+  &__blocks {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: $space-9 $space-14;
+    margin-top: $space-9;
+    @include mono($fs-xl);
+    line-height: $lh-body;
+
+    @include down($bp-md) {
+      grid-template-columns: 1fr;
+      gap: $space-7;
+    }
+  }
+
+  &__block-title {
+    display: flex;
+    align-items: center;
+    gap: $space-3-5;
+    margin-bottom: $space-3-5;
+    @include label($fs-lg, $fw-bold);
+    letter-spacing: normal;
+  }
+
+  &__list li {
+    position: relative;
+    padding-left: $space-5;
+
+    &::before {
+      content: '•';
+      position: absolute;
+      left: $space-1;
+    }
+  }
+
+  &__foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: $space-4;
+    margin-top: $space-16;
+    padding-top: $space-6;
+    border-top: $border-thick solid $color-ink;
+
+    @include down($bp-md) {
+      margin-top: $space-10;
+    }
+  }
+
+  &__ref {
+    @include label($fs-lg, $fw-bold);
+    letter-spacing: normal;
+    text-decoration: none;
+
+    &:is(a):hover {
+      color: $color-orange;
+    }
+  }
+
+  &__nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $space-2-5;
+
+    @include down($bp-md) {
+      &,
+      .btn {
+        flex: 1 1 auto;
+      }
+    }
+  }
+}
+
+/* ---------- Метрики ---------- */
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin-top: $space-8;
+  border: $border-thin solid $color-ink;
+
+  &__cell {
+    padding: $space-4-5 $space-6;
+
+    & + & {
+      border-left: $border-thin solid $color-ink;
+    }
+
+    &:nth-child(2) {
+      background: $color-orange;
+
+      .metrics__id {
+        color: $color-ink;
+      }
+    }
+  }
+
+  &__id,
+  &__label {
+    @include mono($fs-base);
+  }
+
+  &__id {
+    color: $color-muted;
+  }
+
+  &__value {
+    margin-block: $space-1-5 $space-1;
+    @include display($fs-metric, $fw-black, $ls-display, $lh-heading);
+  }
+
+  @include down($bp-md) {
+    grid-template-columns: 1fr;
+
+    &__cell + &__cell {
+      border-left: 0;
+      border-top: $border-thin solid $color-ink;
+    }
+  }
+}
+
+/* ---------- Таймлайн ---------- */
+
+.timeline {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0 $space-4;
+  margin-top: $space-4-5;
+  @include mono($fs-lg);
+  // Горизонтальная линия через центр маркеров
+  background: linear-gradient($color-ink, $color-ink) no-repeat 0 calc((#{$timeline-mark} - #{$border-accent}) / 2) / 100% $border-accent;
+
+  &__item {
+    display: grid;
+    align-content: start;
+    gap: $space-2-5;
+
+    &.is-start .timeline__mark {
+      background: $color-ink;
+    }
+
+    &.is-current .timeline__mark {
+      background: $color-orange;
+      border-color: $color-orange;
+    }
+  }
+
+  &__mark {
+    @include square($timeline-mark);
+    border: $border-thick solid $color-ink;
+    background: $color-paper;
+  }
+
+  &__date {
+    margin-top: $space-2;
+    color: $color-muted;
+  }
+
+  @include down($bp-md) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: $space-6 $space-4;
+    background: none;
+  }
+}

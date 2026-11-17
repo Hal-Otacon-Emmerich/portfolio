@@ -25,7 +25,9 @@ npm run build      # проверка типов + сборка в dist/
 | `src/api/portfolio.ts` | Единственная точка получения данных: мок или запрос к API. |
 | `src/i18n/dictionary.ts` | Тексты интерфейса RU / EN. |
 | `src/pages/` | Главная и страница проекта (`/projects/:slug`). |
-| `src/styles/` | Токены и стили. |
+| `src/styles/main.scss` | Точка входа стилей (SCSS), подключает все партиалы. |
+| `src/styles/abstracts/` | Переменные (цвета, шрифты, отступы, размеры, брейкпоинты), функции `rem()`/`em()` и миксины. Каждый партиал подключает их через `@use '../abstracts' as *;`. |
+| `src/styles/{base,components,layout,sections,pages}/` | Стили по блокам. |
 
 ## Подключение FastAPI
 

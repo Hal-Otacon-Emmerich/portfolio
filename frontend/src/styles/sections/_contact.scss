@@ -1,0 +1,76 @@
+@use '../abstracts' as *;
+
+.contact {
+  padding-block: $space-14 $space-8;
+  @include scroll-anchor;
+
+  &__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(#{rem(220)}, #{rem(300)});
+    align-items: end;
+    gap: $space-8;
+    margin-top: $space-3;
+
+    @include down($bp-sm) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__title {
+    max-width: 7.5ch;
+    @include display($fs-contact-title, $fw-black, $ls-display, 0.88);
+    text-transform: uppercase;
+  }
+
+  &__list {
+    @include mono($fs-sm);
+  }
+
+  &__row {
+    display: flex;
+    justify-content: space-between;
+    gap: $space-3;
+    padding-block: $space-2;
+    border-bottom: $border-thin solid $color-line;
+
+    dt {
+      text-transform: uppercase;
+      color: $color-muted;
+    }
+
+    a {
+      font-weight: $fw-bold;
+      text-transform: uppercase;
+      text-underline-offset: 0.3em;
+      @include transition(color);
+
+      &:hover {
+        color: $color-orange;
+      }
+    }
+  }
+}
+
+.footer {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: $space-4;
+  margin-top: $space-10;
+
+  &__bar {
+    padding: $space-2 $space-3;
+    background: $color-orange;
+    text-align: center;
+    @include display($fs-footer, $fw-extrabold, $ls-snug, normal);
+  }
+
+  @include down($bp-sm) {
+    grid-template-columns: 1fr;
+    gap: $space-2;
+
+    > .label {
+      display: none;
+    }
+  }
+}

@@ -1,0 +1,56 @@
+@use '../abstracts' as *;
+
+.stack {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border: $border-thin solid $color-ink;
+  background: $color-paper-2;
+
+  &__cell {
+    min-height: rem(92);
+    padding: $space-3-5 $space-3 $space-4-5;
+    border-right: $border-thin solid $color-ink;
+    @include transition(background-color, color);
+    transition-duration: $duration-base;
+
+    &:last-child {
+      border-right: 0;
+    }
+
+    &:hover {
+      background: $color-orange;
+
+      .stack__label {
+        color: $color-ink;
+      }
+    }
+  }
+
+  &__label {
+    margin-bottom: $space-2-5;
+    @include label($fs-xs);
+    letter-spacing: normal;
+    color: $color-muted;
+    @include transition(color);
+    transition-duration: $duration-base;
+  }
+
+  &__line {
+    @include display($fs-stack-line, $fw-extrabold, $ls-tight, $lh-snug);
+  }
+
+  // Планшет: сетка 2×2
+  @include down($bp-lg) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    &__cell {
+      &:nth-child(2n) {
+        border-right: 0;
+      }
+
+      &:nth-child(-n + 2) {
+        border-bottom: $border-thin solid $color-ink;
+      }
+    }
+  }
+}
