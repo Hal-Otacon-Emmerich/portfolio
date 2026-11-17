@@ -1,0 +1,176 @@
+@use 'sass:color';
+@use 'functions' as *;
+
+/* =========================================================
+   Цвета
+   ========================================================= */
+
+$color-paper: #e5e3df;
+$color-paper-2: #efeeeb;
+$color-paper-3: #f4f3f1;
+$color-ink: #111111;
+$color-muted: #6f6c67;
+$color-orange: #ff5b14;
+$color-white: #ffffff;
+
+$color-disabled-bg: #cfccc6;
+$color-disabled-ink: #8d8a84;
+$color-shadow: #b9b6b0;
+
+// Полупрозрачные производные
+$color-line: color.change($color-ink, $alpha: 0.22);
+$color-line-inverse: color.change($color-paper, $alpha: 0.28);
+$color-overlay: color.change(#3c3c3c, $alpha: 0.78);
+$color-card-shadow: color.change($color-ink, $alpha: 0.04);
+$color-pcb-fill: color.change($color-white, $alpha: 0.35);
+$color-part-fill: color.change($color-paper-2, $alpha: 0.85);
+
+/* =========================================================
+   Шрифты
+   ========================================================= */
+
+$font-display: ('Inter Tight', 'Helvetica Neue', Arial, sans-serif);
+$font-mono: ('JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace);
+
+$fw-regular: 400;
+$fw-medium: 500;
+$fw-semibold: 600;
+$fw-bold: 700;
+$fw-extrabold: 800;
+$fw-black: 900;
+
+// Корневой размер: 16px на телефонах и ноутбуках, плавно растёт на больших мониторах
+// (≈18px на 1920, 20px на 2560+). Все rem-значения масштабируются вместе с ним.
+$root-font-size: clamp(100%, 85% + 0.25vw, 125%);
+
+// Шкала размеров текста (значения из макета, в rem)
+$fs-2xs: rem(8);
+$fs-xs: rem(9);
+$fs-sm: rem(10);
+$fs-md: rem(11);
+$fs-base: rem(12);
+$fs-lg: rem(13);
+$fs-xl: rem(14);
+$fs-2xl: rem(15);
+$fs-3xl: rem(16);
+$fs-4xl: rem(17);
+$fs-5xl: rem(20);
+
+// Плавные размеры заголовков: min — для телефона, max — для широкого экрана
+$fs-topbar: clamp(#{$fs-2xl}, 1.8vw, #{$fs-5xl});
+$fs-hero: clamp(#{rem(64)}, 14vw, #{rem(176)});
+$fs-section-title: clamp(#{rem(36)}, 6vw, #{rem(64)});
+$fs-contact-title: clamp(#{rem(48)}, 9vw, #{rem(110)});
+$fs-card-number: rem(60);
+$fs-stack-line: clamp(#{$fs-3xl}, 1.6vw, #{$fs-5xl});
+$fs-footer: clamp(#{$fs-xl}, 1.6vw, #{rem(18)});
+$fs-case-number: clamp(#{rem(96)}, 12vw, #{rem(170)});
+$fs-case-title: clamp(#{rem(36)}, 5vw, #{rem(64)});
+$fs-metric: clamp(#{rem(36)}, 4vw, #{rem(52)});
+$fs-manual-title: clamp(#{rem(26)}, 2.8vw, #{rem(46)});
+$fs-manual-alias: clamp(#{rem(18)}, 1.9vw, #{rem(30)});
+$fs-manual-number: clamp(#{rem(140)}, 19vw, #{rem(360)});
+$fs-diagram-node: clamp(#{$fs-2xl}, 1.4vw, #{$fs-5xl});
+$fs-diagram-module: clamp(#{$fs-xl}, 1.3vw, #{rem(18)});
+$fs-spec-title: clamp(#{rem(26)}, 2.6vw, #{rem(40)});
+$fs-not-found: clamp(#{rem(120)}, 30vw, #{rem(280)});
+
+// Межбуквенные интервалы
+$ls-label: 0.04em;
+$ls-mono-tight: -0.01em;
+$ls-snug: -0.02em;
+$ls-tight: -0.03em;
+$ls-heading: -0.055em;
+$ls-display: -0.065em;
+$ls-numeral: -0.08em;
+
+// Высота строки
+$lh-solid: 0.85;
+$lh-display: 0.9;
+$lh-heading: 1;
+$lh-snug: 1.1;
+$lh-compact: 1.2;
+$lh-body: 1.6;
+$lh-relaxed: 1.7;
+
+/* =========================================================
+   Отступы (шкала с шагом 4px, в rem)
+   ========================================================= */
+
+$space-0-5: rem(2);
+$space-1: rem(4);
+$space-1-5: rem(6);
+$space-2: rem(8);
+$space-2-5: rem(10);
+$space-3: rem(12);
+$space-3-5: rem(14);
+$space-4: rem(16);
+$space-4-5: rem(18);
+$space-5: rem(20);
+$space-6: rem(24);
+$space-7: rem(28);
+$space-8: rem(32);
+$space-9: rem(36);
+$space-10: rem(40);
+$space-11: rem(44);
+$space-12: rem(48);
+$space-14: rem(56);
+$space-16: rem(64);
+
+/* =========================================================
+   Раскладка и размеры
+   ========================================================= */
+
+$container-max: rem(1240);
+$gutter: clamp(#{$space-4}, 4vw, #{$space-10});
+
+$nav-height: rem(52);
+$nav-height-mobile: rem(92);
+
+$rail-width: rem(88);
+$panel-width: minmax(#{rem(300)}, 30%);
+$spec-width: minmax(#{rem(280)}, #{rem(380)});
+$modal-max-width: rem(1120);
+$modal-side-width: rem(300);
+$text-max-width: 58ch;
+
+// Линии оставлены в px: в rem они могут размыться или пропасть на дробных пикселях
+$border-thin: 1px;
+$border-thick: 1.5px;
+$border-accent: 2px;
+
+$shadow-offset: rem(14);
+$shadow-offset-lg: rem(16);
+
+$corner-size: rem(28);
+$icon-size: rem(26);
+$timeline-mark: rem(16);
+$rail-button: rem(60);
+$rail-button-mobile: rem(44);
+$bar-width: rem(190);
+$bar-height: rem(6);
+$rule-width: rem(84);
+$rule-height: rem(4);
+$wire-height: rem(44);
+$barcode-height: rem(24);
+
+/* =========================================================
+   Анимация, слои, точки перелома
+   ========================================================= */
+
+$ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+$duration-fast: 0.2s;
+$duration-base: 0.25s;
+$duration-slow: 0.3s;
+$duration-enter: 0.35s;
+
+$z-rail: 10;
+$z-nav: 20;
+$z-modal: 100;
+
+// В em, чтобы точки перелома срабатывали и при увеличенном шрифте браузера
+$bp-xs: em(480);
+$bp-sm: em(680);
+$bp-md: em(860);
+$bp-lg: em(960);
+$bp-xl: em(1360);

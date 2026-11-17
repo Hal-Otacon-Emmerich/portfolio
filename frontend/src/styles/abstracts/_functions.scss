@@ -1,0 +1,14 @@
+@use 'sass:math';
+
+$base-font-size: 16;
+
+/// Переводит пиксели из макета в rem: rem(24) → 1.5rem.
+/// Так размеры в коде совпадают с макетом, но масштабируются вместе с корневым шрифтом.
+@function rem($px) {
+  @return math.div($px, $base-font-size) * 1rem;
+}
+
+/// Пиксели в em — для медиазапросов (em в них всегда считается от 16px браузера).
+@function em($px) {
+  @return math.div($px, $base-font-size) * 1em;
+}

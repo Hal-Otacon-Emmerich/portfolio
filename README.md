@@ -28,6 +28,9 @@ npm run build      # проверка типов + сборка в dist/
 | `src/styles/` | Токены и стили. |
 | `src/api/mockDb.ts` | Временная «база» в localStorage: её читает сайт и меняет админка, пока нет FastAPI. |
 | `src/admin/` | Админ-панель (`/admin`), грузится отдельным чанком. |
+| `src/styles/main.scss` | Точка входа стилей (SCSS), подключает все партиалы. |
+| `src/styles/abstracts/` | Переменные (цвета, шрифты, отступы, размеры, брейкпоинты), функции `rem()`/`em()` и миксины. Каждый партиал подключает их через `@use '../abstracts' as *;`. |
+| `src/styles/{base,components,layout,sections,pages}/` | Стили по блокам. |
 
 ## Подключение FastAPI
 

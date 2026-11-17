@@ -1,0 +1,4 @@
+// Точка входа для общих значений: @use '../abstracts' as *;
+@forward 'functions';
+@forward 'variables';
+@forward 'mixins';

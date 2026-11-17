@@ -1,0 +1,50 @@
+@use '../abstracts' as *;
+
+.label {
+  @include label;
+}
+
+.plus-row {
+  display: flex;
+  justify-content: space-between;
+  @include mono($fs-xl);
+  line-height: 1;
+}
+
+.barcode {
+  display: block;
+  width: 100%;
+  height: $barcode-height;
+}
+
+.tag {
+  display: inline-grid;
+  place-items: center;
+  min-width: $space-7;
+  padding: $space-1 $space-1-5;
+  @include fill-ink;
+  @include mono($fs-base, $fw-bold);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-1-5;
+  margin-top: $space-3;
+
+  li {
+    padding: $space-2 $space-2-5;
+    border: $border-thin solid currentColor;
+    font-size: $fs-base;
+  }
+}
+
+.resource-status {
+  margin-block: $space-4;
+  @include mono($fs-md);
+  color: $color-muted;
+
+  &--error {
+    color: $color-orange;
+  }
+}
