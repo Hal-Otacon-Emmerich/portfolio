@@ -1,4 +1,12 @@
-import type { Experience, Profile, ProjectDetail, ProjectSummary, StackGroup } from './types';
+import type {
+  Experience,
+  Profile,
+  ProjectDetail,
+  ProjectDetailFields,
+  ProjectRecord,
+  ProjectSummary,
+  StackGroup,
+} from './types';
 
 /*
  * Захардкоженные данные. Когда появится FastAPI, этот файл станет
@@ -28,7 +36,7 @@ export const profile: Profile = {
   ],
 };
 
-export const projects: ProjectSummary[] = [
+const projectSummaries: ProjectSummary[] = [
   {
     slug: 'portfolio',
     code: 'PRJ-01',
@@ -92,12 +100,12 @@ export const projects: ProjectSummary[] = [
 ];
 
 const bySlug = (slug: string) => {
-  const project = projects.find((p) => p.slug === slug);
+  const project = projectSummaries.find((p) => p.slug === slug);
   if (!project) throw new Error(`Unknown project ${slug}`);
   return project;
 };
 
-export const projectDetails: ProjectDetail[] = [
+const projectDetails: ProjectDetail[] = [
   {
     ...bySlug('portfolio'),
     manualTitle: ['PORTFOLIO', 'MANUAL'],
@@ -241,3 +249,27 @@ export const experience: Experience[] = [
     { ru: '[Компания / учёба / курс]', en: '[Company / study / course]' },
   ),
 ];
+
+/* ---------- Проекты в формате хранения (как их редактирует админка) ---------- */
+
+const toDetailFields = (d: ProjectDetail): ProjectDetailFields => ({
+  manualTitle: d.manualTitle,
+  alias: d.alias,
+  drawingTitle: d.drawingTitle,
+  chain: d.chain,
+  modules: d.modules,
+  specCode: d.specCode,
+  specTitle: d.specTitle,
+  spec: d.spec,
+  challenge: d.challenge,
+  repoUrl: d.repoUrl,
+  repoLabel: d.repoLabel,
+});
+
+const toRecord = (summary: ProjectSummary): ProjectRecord => {
+  const { hasDetail, ...rest } = summary;
+  const detail = hasDetail ? projectDetails.find((d) => d.slug === summary.slug) : undefined;
+  return { ...rest, detail: detail ? toDetailFields(detail) : null };
+};
+
+export const projects: ProjectRecord[] = projectSummaries.map(toRecord);

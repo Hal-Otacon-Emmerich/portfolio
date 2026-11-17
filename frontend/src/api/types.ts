@@ -76,7 +76,8 @@ export interface DiagramModule {
   name: string;
 }
 
-export interface ProjectDetail extends ProjectSummary {
+/** Поля страницы-схемы проекта. */
+export interface ProjectDetailFields {
   manualTitle: string[];
   alias: string[];
   drawingTitle: Text;
@@ -91,6 +92,17 @@ export interface ProjectDetail extends ProjectSummary {
   repoUrl?: string;
   repoLabel: Text;
 }
+
+/** Ответ GET /api/projects/{slug}: карточка + схема. */
+export interface ProjectDetail extends ProjectSummary, ProjectDetailFields {}
+
+/**
+ * Проект так, как он хранится и редактируется в админке.
+ * detail = null — у проекта нет страницы-схемы (публичное hasDetail вычисляется из этого).
+ */
+export type ProjectRecord = Omit<ProjectSummary, 'hasDetail'> & {
+  detail: ProjectDetailFields | null;
+};
 
 /* ---------- Стек ---------- */
 
