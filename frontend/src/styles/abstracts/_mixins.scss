@@ -1,0 +1,89 @@
+@use 'variables' as *;
+
+/// Стили для экранов уже точки перелома: @include down($bp-sm) { ... }
+@mixin down($breakpoint) {
+  @media (max-width: $breakpoint) {
+    @content;
+  }
+}
+
+/// Моноширинный текст.
+@mixin mono($size: $fs-sm, $weight: $fw-regular) {
+  font-family: $font-mono;
+  font-size: $size;
+  font-weight: $weight;
+}
+
+/// Мелкая подпись капсом — самый частый приём в макете.
+@mixin label($size: $fs-sm, $weight: $fw-medium) {
+  @include mono($size, $weight);
+  letter-spacing: $ls-label;
+  text-transform: uppercase;
+}
+
+/// Крупный гротеск для заголовков и цифр.
+@mixin display($size, $weight: $fw-black, $tracking: $ls-display, $leading: $lh-solid) {
+  font-family: $font-display;
+  font-size: $size;
+  font-weight: $weight;
+  letter-spacing: $tracking;
+  line-height: $leading;
+}
+
+/// transition для перечисленных свойств: @include transition(color, background-color).
+@mixin transition($properties...) {
+  transition-property: $properties;
+  transition-duration: $duration-fast;
+  transition-timing-function: $ease;
+}
+
+@mixin fill($background, $color, $border: $background) {
+  background: $background;
+  border-color: $border;
+  color: $color;
+}
+
+@mixin fill-accent {
+  @include fill($color-orange, $color-ink);
+}
+
+@mixin fill-ink {
+  @include fill($color-ink, $color-paper);
+}
+
+@mixin fill-paper {
+  @include fill($color-paper, $color-ink);
+}
+
+@mixin square($size) {
+  width: $size;
+  height: $size;
+}
+
+/// Блок на всю высоту экрана, который остаётся на месте при прокрутке.
+@mixin sticky-screen {
+  position: sticky;
+  top: 0;
+  height: 100dvh;
+}
+
+/// Отступ при прокрутке к якорю, чтобы заголовок не прятался под меню.
+@mixin scroll-anchor {
+  scroll-margin-top: $nav-height + $space-2;
+
+  @include down($bp-sm) {
+    scroll-margin-top: $nav-height-mobile + $space-2;
+  }
+}
+
+/// Пара «ярлык — значение» в строку.
+@mixin key-value($key-width, $gap: $space-3) {
+  display: grid;
+  grid-template-columns: $key-width 1fr;
+  gap: $gap;
+}
+
+/// Полоса-разделитель по ширине контента (без учёта боковых отступов контейнера).
+@mixin content-rule($color: $color-ink) {
+  background: linear-gradient($color, $color) no-repeat $gutter 0 / calc(100% - 2 * #{$gutter}) $border-thin;
+}

@@ -3,6 +3,12 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
+  css: {
+    preprocessorOptions: {
+      // Современный API Sass (legacy-API устарел и выдаёт предупреждения).
+      scss: { api: 'modern' },
+    },
+  },
   server: {
     port: 5173,
     // Когда появится FastAPI: запросы на /api/* в dev-режиме уйдут на uvicorn.

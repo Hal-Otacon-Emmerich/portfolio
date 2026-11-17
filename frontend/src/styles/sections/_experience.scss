@@ -1,0 +1,123 @@
+@use '../abstracts' as *;
+
+$exp-columns: rem(72) rem(150) minmax(0, 1.3fr) minmax(0, 1fr) $space-8;
+$exp-columns-tablet: rem(64) rem(130) minmax(0, 1fr) $space-7;
+
+.exp {
+  &__row {
+    display: grid;
+    grid-template-columns: $exp-columns;
+    align-items: center;
+    gap: $space-4;
+    width: 100%;
+    padding: $space-5 0;
+    border: 0;
+    border-bottom: $border-thin solid $color-line;
+    background: transparent;
+    text-align: left;
+    @include transition(background-color);
+
+    &:not(.exp__row--head):hover {
+      background: $color-paper-2;
+
+      .exp__arrow {
+        background: $color-ink;
+        color: $color-orange;
+        transform: translateX(-$space-1);
+      }
+    }
+
+    &--head {
+      padding: 0 0 $space-2;
+      border-bottom: $border-thick solid $color-ink;
+      @include label($fs-xs, $fw-regular);
+      letter-spacing: normal;
+      color: $color-muted;
+    }
+  }
+
+  &__open-head {
+    text-align: right;
+  }
+
+  &__id,
+  &__period,
+  &__done {
+    @include mono($fs-sm);
+  }
+
+  &__id {
+    font-weight: $fw-bold;
+  }
+
+  &__role {
+    @include display($fs-xl, $fw-extrabold, $ls-snug, normal);
+  }
+
+  &__arrow {
+    justify-self: end;
+    display: grid;
+    place-items: center;
+    @include square($icon-size);
+    background: $color-orange;
+    font-size: $fs-base;
+    @include transition(background-color, color, transform);
+  }
+
+  &__hint {
+    margin-top: $space-3;
+    @include mono($fs-xs);
+    color: $color-muted;
+  }
+
+  // Планшет: прячем колонку «Что сделано»
+  @include down($bp-lg) {
+    &__row {
+      grid-template-columns: $exp-columns-tablet;
+    }
+
+    &__done,
+    &__row--head span:nth-child(4) {
+      display: none;
+    }
+  }
+
+  // Телефон: строка превращается в карточку
+  @include down($bp-sm) {
+    &__row {
+      grid-template-columns: minmax(0, 1fr) $space-7;
+      grid-template-areas:
+        'meta arrow'
+        'role arrow'
+        'done arrow';
+      gap: $space-1-5 $space-3;
+
+      &--head {
+        display: none;
+      }
+    }
+
+    &__id {
+      grid-area: meta;
+    }
+
+    &__period {
+      grid-area: meta;
+      padding-left: $space-16;
+    }
+
+    &__role {
+      grid-area: role;
+    }
+
+    &__done {
+      display: block;
+      grid-area: done;
+      color: $color-muted;
+    }
+
+    &__arrow {
+      grid-area: arrow;
+    }
+  }
+}

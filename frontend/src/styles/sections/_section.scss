@@ -1,0 +1,39 @@
+@use '../abstracts' as *;
+
+.section {
+  padding-block: $space-12 $space-16;
+  @include scroll-anchor;
+
+  & + & {
+    @include content-rule;
+  }
+}
+
+.section-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: $space-4;
+  margin-bottom: $space-7;
+
+  &__title {
+    @include display($fs-section-title, $fw-black, $ls-heading, $lh-display);
+    text-transform: uppercase;
+  }
+
+  .label {
+    padding-bottom: $space-1-5;
+    color: $color-muted;
+    text-align: right;
+  }
+
+  @include down($bp-sm) {
+    flex-direction: column;
+    align-items: flex-start;
+
+    .label {
+      padding-bottom: 0;
+      text-align: left;
+    }
+  }
+}

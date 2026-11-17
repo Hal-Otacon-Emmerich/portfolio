@@ -1,0 +1,22 @@
+// Единая точка входа стилей. Порядок важен: от общего к частному.
+// Переменные, функции и миксины — в abstracts/, каждый файл подключает их сам через @use.
+
+@use 'base/reset';
+@use 'base/global';
+
+@use 'components/buttons';
+@use 'components/ui';
+
+@use 'layout/header';
+
+@use 'sections/hero';
+@use 'sections/section';
+@use 'sections/projects';
+@use 'sections/stack';
+@use 'sections/experience';
+@use 'sections/contact';
+
+@use 'components/modal';
+
+@use 'pages/project';
+@use 'pages/not-found';
